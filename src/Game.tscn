@@ -1,32 +1,113 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=32 format=2]
 
-[ext_resource path="res://Assets/unknown.png" type="Texture" id=1]
+[ext_resource path="res://Assets/background.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Sprites/animal-hamster-001.png" type="Texture" id=2]
 [ext_resource path="res://src/MainScreenPlayer.gd" type="Script" id=3]
 [ext_resource path="res://src/Game.gd" type="Script" id=4]
-[ext_resource path="res://src/GameEnterArea.gd" type="Script" id=5]
-[ext_resource path="res://src/ResourceProgress.gd" type="Script" id=6]
+[ext_resource path="res://src/WheelArea.gd" type="Script" id=5]
 [ext_resource path="res://src/DrinkArea.gd" type="Script" id=7]
 [ext_resource path="res://src/EatArea.gd" type="Script" id=8]
 [ext_resource path="res://Assets/feed.png" type="Texture" id=9]
-
-[sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 241.821, 342.843 )
-
-[sub_resource type="CapsuleShape2D" id=2]
-radius = 193.172
-height = 182.103
+[ext_resource path="res://Assets/white.png" type="Texture" id=10]
+[ext_resource path="res://Assets/floor-bg.png" type="Texture" id=11]
+[ext_resource path="res://Assets/floor-fg.png" type="Texture" id=12]
+[ext_resource path="res://src/Wheelie.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Assets/bottle.png" type="Texture" id=15]
+[ext_resource path="res://Assets/electricity.png" type="Texture" id=16]
+[ext_resource path="res://Assets/lightbulb.png" type="Texture" id=17]
+[ext_resource path="res://src/GeneratorArea.gd" type="Script" id=18]
+[ext_resource path="res://Assets/puff.png" type="Texture" id=19]
+[ext_resource path="res://src/TextUI.gd" type="Script" id=20]
+[ext_resource path="res://src/ElectricityBar.tscn" type="PackedScene" id=21]
 
 [sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 248.849, 289.445 )
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 0.686035, 0.686035, 0.686035, 1, 0, 0, 0, 1 )
+
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 1800, 300 )
 
-[sub_resource type="Theme" id=3]
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 201.682, 248.542 )
 
-[sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.992157, 0.847059, 0.207843, 1 )
+[sub_resource type="Shader" id=5]
+code = "shader_type canvas_item;
 
-[sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0, 0.376471, 0.392157, 1 )
+uniform float amount: hint_range(0.0, 5.0);
+
+void fragment() {
+	COLOR.rgb = textureLod(SCREEN_TEXTURE, SCREEN_UV, amount).rgb;
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+shader_param/amount = 0.0
+
+[sub_resource type="Shader" id=7]
+code = "shader_type canvas_item;
+
+uniform float amount: hint_range(0.0, 5.0);
+
+void fragment() {
+	COLOR.rgb = textureLod(SCREEN_TEXTURE, SCREEN_UV, amount).rgb;
+}"
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = SubResource( 7 )
+shader_param/amount = 0.0
+
+[sub_resource type="StyleBoxEmpty" id=15]
+
+[sub_resource type="DynamicFontData" id=13]
+font_path = "res://Assets/Fonts/JetBrainsMono-Bold.ttf"
+
+[sub_resource type="DynamicFont" id=14]
+size = 25
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = SubResource( 13 )
+
+[sub_resource type="Animation" id=12]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("CanvasModulate:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.643137, 0.643137, 0.643137, 0.733333 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BlurLayer/TextureRect:material")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 1,
+"values": [  ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("BlurLayer/TextureRect:material:shader_param/amount")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 2.44 ]
+}
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 4 )
@@ -35,20 +116,82 @@ script = ExtResource( 4 )
 position = Vector2( 514.678, 309.74 )
 scale = Vector2( 0.802153, 0.856509 )
 texture = ExtResource( 1 )
-
-[node name="PlayArea" type="Area2D" parent="."]
-position = Vector2( 545.627, 382.182 )
-scale = Vector2( 0.294247, 0.299388 )
-script = ExtResource( 5 )
 __meta__ = {
-"_edit_group_": true
+"_edit_lock_": true
 }
 
+[node name="floor-bg" type="Sprite" parent="."]
+position = Vector2( 514.408, 477.653 )
+scale = Vector2( 0.802153, 0.856509 )
+texture = ExtResource( 11 )
+
+[node name="EatArea" type="Area2D" parent="."]
+position = Vector2( 109.499, 378.325 )
+scale = Vector2( 0.294247, 0.299388 )
+script = ExtResource( 8 )
+scene_to_load = "res://src/EatingGame.tscn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EatArea"]
+position = Vector2( 4.04153, 115.192 )
+shape = SubResource( 1 )
+
+[node name="feed" type="Sprite" parent="EatArea"]
+position = Vector2( 54.9823, 202.992 )
+scale = Vector2( 3.5, 4 )
+texture = ExtResource( 9 )
+
+[node name="GeneratorArea" type="Area2D" parent="."]
+position = Vector2( 108.19, 158.21 )
+scale = Vector2( 0.294247, 0.299388 )
+script = ExtResource( 18 )
+scene_to_load = "res://src/GeneratorGame.tscn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GeneratorArea"]
+position = Vector2( -38.1471, 29.2054 )
+shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="GeneratorArea"]
+position = Vector2( -15.7177, -220.459 )
+emitting = false
+amount = 30
+lifetime = 2.0
+explosiveness = 0.18
+texture = ExtResource( 19 )
+emission_shape = 1
+emission_sphere_radius = 40.38
+spread = 90.97
+gravity = Vector2( 0, -98 )
+scale_amount_random = 0.35
+color_ramp = SubResource( 2 )
+hue_variation = -0.83
+
+[node name="electricity" type="Sprite" parent="GeneratorArea"]
+position = Vector2( 622.142, -50.5154 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 16 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PlayArea" type="Area2D" parent="."]
+position = Vector2( 540.276, 329.262 )
+scale = Vector2( 0.294247, 0.299388 )
+script = ExtResource( 5 )
+scene_to_load = "res://src/WheelGame.tscn"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayArea"]
-shape = SubResource( 6 )
+position = Vector2( 4.0415, 174.774 )
+shape = SubResource( 1 )
+
+[node name="Wheelie" parent="PlayArea" instance=ExtResource( 14 )]
+position = Vector2( 52.5398, -273.895 )
+scale = Vector2( 2.5, 2.5 )
 
 [node name="DrinkArea" type="Area2D" parent="."]
-position = Vector2( 900.547, 382.182 )
+position = Vector2( 894.601, 398.831 )
 scale = Vector2( 0.294247, 0.299388 )
 script = ExtResource( 7 )
 __meta__ = {
@@ -56,26 +199,29 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DrinkArea"]
-shape = SubResource( 6 )
+shape = SubResource( 1 )
 
-[node name="EatArea" type="Area2D" parent="."]
-position = Vector2( 109.499, 378.325 )
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2( 544.946, 401.947 )
 scale = Vector2( 0.294247, 0.299388 )
-script = ExtResource( 8 )
 __meta__ = {
-"_edit_group_": true
+"_edit_lock_": true
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EatArea"]
-shape = SubResource( 6 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+position = Vector2( -124.173, 618.624 )
+shape = SubResource( 3 )
 
-[node name="feed" type="Sprite" parent="EatArea"]
-position = Vector2( 5.41635, 190.314 )
-scale = Vector2( 2, 2 )
-texture = ExtResource( 9 )
+[node name="lightbulb" type="Sprite" parent="."]
+position = Vector2( 318.208, 77.0813 )
+texture = ExtResource( 17 )
+
+[node name="bottle" type="Sprite" parent="."]
+position = Vector2( 894.915, 229.989 )
+texture = ExtResource( 15 )
 
 [node name="HamBoi" type="KinematicBody2D" parent="."]
-position = Vector2( 322.217, 407.024 )
+position = Vector2( 483.447, 415.244 )
 scale = Vector2( 0.294247, 0.299388 )
 script = ExtResource( 3 )
 __meta__ = {
@@ -86,68 +232,84 @@ __meta__ = {
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HamBoi"]
-shape = SubResource( 2 )
+shape = SubResource( 4 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2( 544.946, 401.947 )
-scale = Vector2( 0.294247, 0.299388 )
+[node name="floor-fg" type="Sprite" parent="."]
+position = Vector2( 512.884, 514 )
+scale = Vector2( 0.800021, 1 )
+texture = ExtResource( 12 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( -124.173, 618.624 )
-shape = SubResource( 1 )
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+material = SubResource( 6 )
+use_parent_material = true
+
+[node name="BlurLayer" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="BlurLayer"]
+material = SubResource( 8 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource( 10 )
+expand = true
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
 
-[node name="ElectricityBar" type="ProgressBar" parent="CanvasLayer"]
-margin_left = 43.8729
-margin_top = 17.3746
-margin_right = 187.873
-margin_bottom = 31.3746
-theme = SubResource( 3 )
-custom_styles/fg = SubResource( 4 )
-custom_styles/bg = SubResource( 5 )
-custom_colors/font_color = Color( 0.392157, 0.866667, 0.0901961, 1 )
-custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
-script = ExtResource( 6 )
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+margin_left = 54.7491
+margin_top = 8.65517
+margin_right = 178.749
+margin_bottom = 110.655
+custom_constants/separation = 30
 __meta__ = {
 "_edit_use_anchors_": false
 }
-resource = "electricity"
 
-[node name="Tween" type="Tween" parent="CanvasLayer/ElectricityBar"]
+[node name="ElectricityBar" parent="CanvasLayer/VBoxContainer" instance=ExtResource( 21 )]
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 124.0
+margin_bottom = 14.0
 
-[node name="HungerBar" type="ProgressBar" parent="CanvasLayer"]
-margin_left = 43.8729
-margin_top = 60.7928
-margin_right = 187.873
-margin_bottom = 74.7928
-theme = SubResource( 3 )
-custom_styles/fg = SubResource( 4 )
-custom_styles/bg = SubResource( 5 )
-custom_colors/font_color = Color( 0.392157, 0.866667, 0.0901961, 1 )
-custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="HungerBar" parent="CanvasLayer/VBoxContainer" instance=ExtResource( 21 )]
+margin_left = 0.0
+margin_top = 44.0
+margin_right = 124.0
+margin_bottom = 58.0
 resource = "hunger"
 
-[node name="Tween" type="Tween" parent="CanvasLayer/HungerBar"]
+[node name="ThirstBar" parent="CanvasLayer/VBoxContainer" instance=ExtResource( 21 )]
+margin_left = 0.0
+margin_top = 88.0
+margin_right = 124.0
+margin_bottom = 102.0
+resource = "thirst"
 
-[node name="ThirstBar" type="ProgressBar" parent="CanvasLayer"]
-margin_left = 42.4906
-margin_top = 109.045
-margin_right = 186.491
-margin_bottom = 123.045
-theme = SubResource( 3 )
-custom_styles/fg = SubResource( 4 )
-custom_styles/bg = SubResource( 5 )
-custom_colors/font_color = Color( 0.392157, 0.866667, 0.0901961, 1 )
-custom_colors/font_color_shadow = Color( 1, 1, 1, 1 )
-script = ExtResource( 6 )
+[node name="TextUI" type="Control" parent="CanvasLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-resource = "thirst"
 
-[node name="Tween" type="Tween" parent="CanvasLayer/ThirstBar"]
+[node name="Label" type="Label" parent="CanvasLayer/TextUI"]
+margin_left = 240.037
+margin_top = 33.2049
+margin_right = 745.037
+margin_bottom = 106.205
+custom_styles/normal = SubResource( 15 )
+custom_fonts/font = SubResource( 14 )
+text = "GENERATOR DOWN, FIX IT FIRST!"
+align = 1
+valign = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/ChangeScene = SubResource( 12 )

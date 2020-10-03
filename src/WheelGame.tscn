@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Assets/hamster-wheel.png" type="Texture" id=1]
+[ext_resource path="res://src/Wheel.gd" type="Script" id=2]
+[ext_resource path="res://src/WheelGame.gd" type="Script" id=3]
+
+[node name="WheelGame" type="CanvasLayer"]
+script = ExtResource( 3 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+position = Vector2( 512, 300 )
+script = ExtResource( 2 )
+
+[node name="hamster-wheel" type="Sprite" parent="KinematicBody2D"]
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}

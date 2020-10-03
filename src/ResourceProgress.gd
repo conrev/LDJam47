@@ -1,8 +1,7 @@
 extends ProgressBar
 
 export var resource : String 
-onready var tweener = $Tween
-
+onready var animator : AnimationPlayer = $AnimationPlayer
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -14,5 +13,7 @@ func _ready():
 	ResourceManager.connect("%s_changed"%resource,self,'_on_resource_changed')
 	
 func _on_resource_changed(val):
+	if value < val:
+		animator.play("Wiggle")
 	value = val
 

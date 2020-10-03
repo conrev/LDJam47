@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/support.png" type="Texture" id=1]
+[ext_resource path="res://Assets/ladder.png" type="Texture" id=2]
+
+[node name="Stairs" type="Node2D"]
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 92.1366, -4.62161 )
+texture = ExtResource( 2 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 128.854, -47.1967 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2( -3.74576, 4.4949 )
+polygon = PoolVector2Array( 0.186188, 2.08154, -214.821, 5.07816, -222.312, -36.1253, 1.68448, -36.1253, 18.915, -10.6541, 180.732, 208.099, 144.773, 209.597 )

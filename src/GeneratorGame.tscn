@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/GeneratorGame.gd" type="Script" id=2]
+[ext_resource path="res://src/LeftGenerator.gd" type="Script" id=3]
+
+[node name="GeneratorGame" type="CanvasLayer"]
+script = ExtResource( 2 )
+
+[node name="LeftGenerator" type="Node2D" parent="."]
+position = Vector2( 270.636, 192.422 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+SIDES = "left"
+
+[node name="RightGenerator" type="Node2D" parent="."]
+position = Vector2( 716.494, 188.485 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+SIDES = "right"
