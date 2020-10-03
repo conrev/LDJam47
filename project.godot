@@ -8,15 +8,33 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Area2D",
+"class": "GameEnterArea",
+"language": "GDScript",
+"path": "res://src/GameEnterArea.gd"
+} ]
 _global_script_class_icons={
-
+"GameEnterArea": ""
 }
 
 [application]
 
 config/name="Ld Jam 47"
+run/main_scene="res://src/Game.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+ResourceManager="*res://src/ResourceManager.gd"
+
+[input]
+
+ui_enter={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [rendering]
 
