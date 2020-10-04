@@ -1,16 +1,18 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Assets/background.png" type="Texture" id=1]
-[ext_resource path="res://Assets/Sprites/animal-hamster-001.png" type="Texture" id=2]
+[ext_resource path="res://Assets/hamster-all.png" type="Texture" id=2]
 [ext_resource path="res://src/MainScreenPlayer.gd" type="Script" id=3]
 [ext_resource path="res://src/Game.gd" type="Script" id=4]
 [ext_resource path="res://src/WheelArea.gd" type="Script" id=5]
+[ext_resource path="res://src/Stairs.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/DrinkArea.gd" type="Script" id=7]
 [ext_resource path="res://src/EatArea.gd" type="Script" id=8]
 [ext_resource path="res://Assets/feed.png" type="Texture" id=9]
 [ext_resource path="res://Assets/white.png" type="Texture" id=10]
 [ext_resource path="res://Assets/floor-bg.png" type="Texture" id=11]
 [ext_resource path="res://Assets/floor-fg.png" type="Texture" id=12]
+[ext_resource path="res://Assets/lightmask.png" type="Texture" id=13]
 [ext_resource path="res://src/Wheelie.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Assets/bottle.png" type="Texture" id=15]
 [ext_resource path="res://Assets/electricity.png" type="Texture" id=16]
@@ -19,9 +21,13 @@
 [ext_resource path="res://Assets/puff.png" type="Texture" id=19]
 [ext_resource path="res://src/TextUI.gd" type="Script" id=20]
 [ext_resource path="res://src/ElectricityBar.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Assets/sad-hamsy.png" type="Texture" id=22]
+[ext_resource path="res://src/HungerBar.tscn" type="PackedScene" id=23]
+[ext_resource path="res://src/ThirstBar.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Assets/Fonts/JetBrainsMono-Bold.ttf" type="DynamicFontData" id=25]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 248.849, 289.445 )
+extents = Vector2( 248.849, 210.33 )
 
 [sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 0.686035, 0.686035, 0.686035, 1, 0, 0, 0, 1 )
@@ -30,7 +36,70 @@ colors = PoolColorArray( 0.686035, 0.686035, 0.686035, 1, 0, 0, 0, 1 )
 extents = Vector2( 1800, 300 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 201.682, 248.542 )
+extents = Vector2( 44.5269, 38.4525 )
+
+[sub_resource type="Animation" id=20]
+resource_name = "Fall"
+tracks/0/type = "value"
+tracks/0/path = NodePath("animal-hamster-001:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 3, 4, 5 ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "Idle"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("animal-hamster-001:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 14, 15, 16, 17, 17 ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "Jump"
+tracks/0/type = "value"
+tracks/0/path = NodePath("animal-hamster-001:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "Walk"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("animal-hamster-001:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 7, 8, 9, 10, 11, 12 ]
+}
 
 [sub_resource type="Shader" id=5]
 code = "shader_type canvas_item;
@@ -58,17 +127,54 @@ void fragment() {
 shader = SubResource( 7 )
 shader_param/amount = 0.0
 
-[sub_resource type="StyleBoxEmpty" id=15]
-
-[sub_resource type="DynamicFontData" id=13]
+[sub_resource type="DynamicFontData" id=21]
 font_path = "res://Assets/Fonts/JetBrainsMono-Bold.ttf"
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="DynamicFont" id=22]
+size = 19
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = SubResource( 21 )
+
+[sub_resource type="DynamicFontData" id=23]
+font_path = "res://Assets/Fonts/JetBrainsMono-Bold.ttf"
+
+[sub_resource type="DynamicFont" id=24]
+size = 18
+outline_size = 1
+outline_color = Color( 0.811765, 0.0745098, 0.0745098, 1 )
+use_filter = true
+font_data = SubResource( 23 )
+
+[sub_resource type="StyleBoxEmpty" id=9]
+
+[sub_resource type="DynamicFontData" id=10]
+font_path = "res://Assets/Fonts/JetBrainsMono-Bold.ttf"
+
+[sub_resource type="DynamicFont" id=11]
 size = 25
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = SubResource( 13 )
+font_data = SubResource( 10 )
+
+[sub_resource type="DynamicFont" id=16]
+resource_local_to_scene = true
+size = 52
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 25 )
+
+[sub_resource type="DynamicFontData" id=17]
+font_path = "res://Assets/Fonts/JetBrainsMono-Bold.ttf"
+
+[sub_resource type="DynamicFont" id=18]
+size = 32
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 17 )
 
 [sub_resource type="Animation" id=12]
 length = 0.3
@@ -82,7 +188,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0.643137, 0.643137, 0.643137, 0.733333 ) ]
+"values": [ Color( 0.25098, 0.25098, 0.25098, 1 ), Color( 0.0745098, 0.0745098, 0.0745098, 1 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("BlurLayer/TextureRect:material")
@@ -107,6 +213,190 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0.0, 2.44 ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "GameOver"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("BlurLayer/TextureRect:material:shader_param/amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 3.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CanvasModulate:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.25098, 0.25098, 0.25098, 1 ), Color( 0.580392, 0.796078, 0.92549, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("UILayer/ResourceContainer:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("UILayer/GameOver/Label:rect_scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("UILayer/GameOver:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("UILayer/GameOver/Label:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("UILayer/GameOver/Label2:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("UILayer/GameOver/Label2:rect_position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 0.683021, 3.36359 ),
+"update": 0,
+"values": [ Vector2( 260, 735 ), Vector2( 260.674, 250 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("UILayer/GameOver/TextureRect:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("UILayer/TextUI:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("UILayer/TimeContainer:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("UILayer/GameOver/Text:rect_position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -200, 324.726 ), Vector2( 316.016, 324.726 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("UILayer/GameOver/SurvivalTime:modulate")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 0.941176, 0.941176, 0.941176, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("UILayer/GameOver/Text:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("UILayer/GameOver/SurvivalTime:visible")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [node name="Game" type="Node2D"]
@@ -144,14 +434,10 @@ texture = ExtResource( 9 )
 position = Vector2( 108.19, 158.21 )
 scale = Vector2( 0.294247, 0.299388 )
 script = ExtResource( 18 )
-scene_to_load = "res://src/GeneratorGame.tscn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GeneratorArea"]
-position = Vector2( -38.1471, 29.2054 )
+position = Vector2( -38.1471, 115.502 )
 shape = SubResource( 1 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="GeneratorArea"]
 position = Vector2( -15.7177, -220.459 )
@@ -180,7 +466,6 @@ __meta__ = {
 position = Vector2( 540.276, 329.262 )
 scale = Vector2( 0.294247, 0.299388 )
 script = ExtResource( 5 )
-scene_to_load = "res://src/WheelGame.tscn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayArea"]
 position = Vector2( 4.0415, 174.774 )
@@ -197,6 +482,7 @@ script = ExtResource( 7 )
 __meta__ = {
 "_edit_group_": true
 }
+scene_to_load = "res://src/DrinkingGame.tscn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DrinkArea"]
 shape = SubResource( 1 )
@@ -216,13 +502,23 @@ shape = SubResource( 3 )
 position = Vector2( 318.208, 77.0813 )
 texture = ExtResource( 17 )
 
+[node name="Light2D2" type="Light2D" parent="lightbulb"]
+position = Vector2( -2.8844, 29.1526 )
+scale = Vector2( 1.30722, 1.2528 )
+texture = ExtResource( 13 )
+color = Color( 0.905882, 0.909804, 0.478431, 1 )
+energy = 0.71
+
 [node name="bottle" type="Sprite" parent="."]
 position = Vector2( 894.915, 229.989 )
 texture = ExtResource( 15 )
 
+[node name="Stairs" parent="." instance=ExtResource( 6 )]
+position = Vector2( 120, 380 )
+
 [node name="HamBoi" type="KinematicBody2D" parent="."]
-position = Vector2( 483.447, 415.244 )
-scale = Vector2( 0.294247, 0.299388 )
+position = Vector2( 634.32, 400.124 )
+scale = Vector2( 0.75, 0.75 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
@@ -230,9 +526,19 @@ __meta__ = {
 
 [node name="animal-hamster-001" type="Sprite" parent="HamBoi"]
 texture = ExtResource( 2 )
+vframes = 3
+hframes = 7
+frame = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HamBoi"]
+position = Vector2( -0.953735, 45.9276 )
 shape = SubResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HamBoi"]
+anims/Fall = SubResource( 20 )
+anims/Idle = SubResource( 14 )
+anims/Jump = SubResource( 19 )
+anims/Walk = SubResource( 13 )
 
 [node name="floor-fg" type="Sprite" parent="."]
 position = Vector2( 512.884, 514 )
@@ -242,6 +548,17 @@ texture = ExtResource( 12 )
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 material = SubResource( 6 )
 use_parent_material = true
+color = Color( 0.25098, 0.25098, 0.25098, 1 )
+
+[node name="GlobalLight" type="Light2D" parent="."]
+position = Vector2( 487.02, 223.661 )
+scale = Vector2( 1.30722, 1.2528 )
+texture = ExtResource( 13 )
+texture_scale = 5.37
+color = Color( 0.713726, 0.713726, 0.701961, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="BlurLayer" type="CanvasLayer" parent="."]
 
@@ -257,40 +574,66 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
-margin_left = 54.7491
-margin_top = 8.65517
-margin_right = 178.749
-margin_bottom = 110.655
-custom_constants/separation = 30
+[node name="TimeContainer" type="VBoxContainer" parent="UILayer"]
+margin_left = 456.283
+margin_top = 520.854
+margin_right = 610.283
+margin_bottom = 639.854
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ElectricityBar" parent="CanvasLayer/VBoxContainer" instance=ExtResource( 21 )]
+[node name="Label" type="Label" parent="UILayer/TimeContainer"]
+margin_right = 154.0
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 22 )
+text = "Survival Time:"
+
+[node name="SurvivalTime" type="Label" parent="UILayer/TimeContainer"]
+margin_top = 29.0
+margin_right = 154.0
+margin_bottom = 52.0
+custom_fonts/font = SubResource( 24 )
+text = "0 Second"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ResourceContainer" type="VBoxContainer" parent="UILayer"]
+margin_left = 847.499
+margin_top = 25.7511
+margin_right = 991.499
+margin_bottom = 157.751
+custom_constants/separation = 45
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ElectricityBar" parent="UILayer/ResourceContainer" instance=ExtResource( 21 )]
 margin_left = 0.0
 margin_top = 0.0
-margin_right = 124.0
+margin_right = 144.0
 margin_bottom = 14.0
 
-[node name="HungerBar" parent="CanvasLayer/VBoxContainer" instance=ExtResource( 21 )]
+[node name="ElectricityBar2" parent="UILayer/ResourceContainer" instance=ExtResource( 23 )]
 margin_left = 0.0
-margin_top = 44.0
-margin_right = 124.0
-margin_bottom = 58.0
-resource = "hunger"
+margin_top = 59.0
+margin_right = 144.0
+margin_bottom = 73.0
 
-[node name="ThirstBar" parent="CanvasLayer/VBoxContainer" instance=ExtResource( 21 )]
+[node name="ElectricityBar3" parent="UILayer/ResourceContainer" instance=ExtResource( 24 )]
 margin_left = 0.0
-margin_top = 88.0
-margin_right = 124.0
-margin_bottom = 102.0
-resource = "thirst"
+margin_top = 118.0
+margin_right = 144.0
+margin_bottom = 132.0
 
-[node name="TextUI" type="Control" parent="CanvasLayer"]
+[node name="TextUI" type="Control" parent="UILayer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -300,16 +643,109 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="CanvasLayer/TextUI"]
+[node name="Label" type="Label" parent="UILayer/TextUI"]
 margin_left = 240.037
 margin_top = 33.2049
 margin_right = 745.037
 margin_bottom = 106.205
-custom_styles/normal = SubResource( 15 )
-custom_fonts/font = SubResource( 14 )
+custom_styles/normal = SubResource( 9 )
+custom_fonts/font = SubResource( 11 )
 text = "GENERATOR DOWN, FIX IT FIRST!"
 align = 1
 valign = 1
 
+[node name="GameOver" type="Control" parent="UILayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Text" type="Label" parent="UILayer/GameOver"]
+visible = false
+margin_left = -200.0
+margin_top = 324.726
+margin_right = 86.0
+margin_bottom = 347.726
+custom_fonts/font = SubResource( 24 )
+text = "You Survived For : "
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SurvivalTime" type="Label" parent="UILayer/GameOver"]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 483.675
+margin_top = 324.726
+margin_right = 769.675
+margin_bottom = 347.726
+custom_fonts/font = SubResource( 24 )
+text = "3 Seconds"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UILayer/GameOver"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -155.0
+margin_top = -121.0
+margin_right = 155.0
+margin_bottom = -55.0
+rect_scale = Vector2( 0.0867908, 0.0867908 )
+rect_pivot_offset = Vector2( 155, 33 )
+custom_fonts/font = SubResource( 16 )
+text = "GAME OVER!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="UILayer/GameOver"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -252.0
+margin_top = 435.0
+margin_right = 213.0
+margin_bottom = 501.0
+rect_pivot_offset = Vector2( 155, 33 )
+custom_fonts/font = SubResource( 18 )
+text = "CAUSE OF DEATH:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="UILayer/GameOver"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -83.0
+margin_top = 64.5
+margin_right = 83.0
+margin_bottom = 249.5
+texture = ExtResource( 22 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/ChangeScene = SubResource( 12 )
+anims/GameOver = SubResource( 15 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

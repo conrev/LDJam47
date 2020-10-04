@@ -3,6 +3,12 @@ class_name GameEnterArea
 
 export(String) var scene_to_load
 
+func _ready():
+	ResourceManager.connect("game_over",self,'disable_input')
+
+func disable_input(_args):
+	set_process_unhandled_input(false)
+
 func get_reward():
 	ResourceManager.electricity+=10
 	ResourceManager.hunger-=10

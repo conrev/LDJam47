@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Ludum_Dare_47_Standard_Music.ogg-68cd660945602ab4042f52f519e2b579.oggstr"
+
+[deps]
+
+source_file="res://Assets/Music/Ludum_Dare_47_Standard_Music.ogg"
+dest_files=[ "res://.import/Ludum_Dare_47_Standard_Music.ogg-68cd660945602ab4042f52f519e2b579.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

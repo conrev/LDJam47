@@ -1,5 +1,10 @@
-extends GameEnterArea
+extends Area2D
 
+func _ready():
+	ResourceManager.connect("game_over",self,'disable_input')
+
+func disable_input(_args):
+	set_process_unhandled_input(false)
 
 func _unhandled_input(event):
 	if get_overlapping_bodies().size() > 0:
@@ -7,6 +12,7 @@ func _unhandled_input(event):
 			if ResourceManager.generator_broken:
 				ResourceManager.emit_signal("message_requested","Generator is Broken, Fix it First", 2)
 			else:
-				get_parent().add_scene(scene_to_load)
+				print('ini jalan')
+				get_parent().add_scene("res://src/WheelGame.tscn")
 			
 
