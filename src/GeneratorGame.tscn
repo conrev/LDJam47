@@ -1,8 +1,18 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/circuit.png" type="Texture" id=1]
 [ext_resource path="res://src/GeneratorGame.gd" type="Script" id=2]
 [ext_resource path="res://src/LeftGenerator.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://Assets/Fonts/JetBrainsMono-Bold.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 20
+outline_size = 1
+outline_color = Color( 0.576471, 0.270588, 0.270588, 1 )
+use_filter = true
+font_data = SubResource( 1 )
 
 [node name="GeneratorGame" type="CanvasLayer"]
 script = ExtResource( 2 )
@@ -27,3 +37,17 @@ __meta__ = {
 "_edit_group_": true
 }
 SIDES = "right"
+
+[node name="Label" type="Label" parent="."]
+margin_left = 18.9368
+margin_top = 31.3104
+margin_right = 155.937
+margin_bottom = 173.31
+custom_fonts/font = SubResource( 2 )
+text = "Click and Drag to connect areas the Same Color"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

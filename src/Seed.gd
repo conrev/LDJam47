@@ -63,7 +63,7 @@ func start_fall():
 
 func generate_food():
 	if crack_count > 3:
-		ResourceManager.hunger+=5
+		ResourceManager.hunger+=8
 	ResourceManager.thirst-=3
 	$AudioStreamPlayer.stream = munching
 	$AudioStreamPlayer.play()

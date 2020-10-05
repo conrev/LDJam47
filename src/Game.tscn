@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://Assets/background.png" type="Texture" id=1]
 [ext_resource path="res://Assets/hamster-all.png" type="Texture" id=2]
@@ -31,6 +31,7 @@
 [ext_resource path="res://Assets/hamster-wheel-stand.png" type="Texture" id=29]
 [ext_resource path="res://Assets/circuit-box.png" type="Texture" id=30]
 [ext_resource path="res://Assets/Music/generator_broken_static_noise.wav" type="AudioStream" id=31]
+[ext_resource path="res://Assets/icons8-e-key-96.png" type="Texture" id=32]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 248.849, 210.33 )
@@ -234,6 +235,23 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 1.2, 0.8 ), Vector2( 0.8, 0.8 ), Vector2( 1.2, 0.8 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=34]
+resource_name = "Idle"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -5.0, 0.0, 5.0, 0.0 ]
 }
 
 [sub_resource type="Animation" id=23]
@@ -559,6 +577,12 @@ stream = ExtResource( 28 )
 volume_db = -10.0
 pitch_scale = 0.7
 
+[node name="Keys" type="Sprite" parent="EatArea"]
+position = Vector2( 208.677, -4.45862 )
+scale = Vector2( 1.5, 1.5 )
+z_index = 300
+texture = ExtResource( 32 )
+
 [node name="GeneratorArea" type="Area2D" parent="."]
 position = Vector2( 108.19, 158.21 )
 scale = Vector2( 0.294247, 0.299388 )
@@ -598,6 +622,12 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Keys" type="Sprite" parent="GeneratorArea"]
+position = Vector2( 200.045, 171.332 )
+scale = Vector2( 1.5, 1.5 )
+z_index = 300
+texture = ExtResource( 32 )
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="GeneratorArea"]
 volume_db = -10.0
 pitch_scale = 0.7
@@ -634,13 +664,16 @@ __meta__ = {
 volume_db = -10.0
 pitch_scale = 0.7
 
+[node name="Keys" type="Sprite" parent="PlayArea"]
+position = Vector2( 51.3241, 64.6299 )
+scale = Vector2( 1.5, 1.5 )
+z_index = 300
+texture = ExtResource( 32 )
+
 [node name="DrinkArea" type="Area2D" parent="."]
 position = Vector2( 894.601, 398.831 )
 scale = Vector2( 0.294247, 0.299388 )
 script = ExtResource( 7 )
-__meta__ = {
-"_edit_group_": true
-}
 scene_to_load = "res://src/DrinkingGame.tscn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DrinkArea"]
@@ -656,6 +689,12 @@ material = SubResource( 30 )
 position = Vector2( 1.06714, -563.957 )
 scale = Vector2( 3.39851, 3.34015 )
 texture = ExtResource( 15 )
+
+[node name="Keys" type="Sprite" parent="DrinkArea"]
+position = Vector2( 267.329, -104.166 )
+scale = Vector2( 1.5, 1.5 )
+z_index = 300
+texture = ExtResource( 32 )
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2( 544.946, 401.947 )
@@ -822,7 +861,6 @@ align = 1
 valign = 1
 
 [node name="GameOver" type="Control" parent="UILayer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -894,7 +932,6 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="UILayer/GameOver"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -911,7 +948,9 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UILayer/GameOver/TextureRect"]
+autoplay = "Idle"
 anims/Clicked = SubResource( 25 )
+anims/Idle = SubResource( 34 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/ChangeScene = SubResource( 23 )

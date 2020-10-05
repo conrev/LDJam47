@@ -3,7 +3,7 @@ extends KinematicBody2D
 onready var animator = $AnimationPlayer
 onready var sprite = $"animal-hamster-001"
 var snap = false
-var speed = 250
+var speed = 350
 var velocity = Vector2()
 var gravity = 20
 var is_jumping = true

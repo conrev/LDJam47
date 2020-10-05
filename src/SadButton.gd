@@ -8,7 +8,7 @@ extends TextureRect
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$AnimationPlayer.play("Idle")
 
 func _on_TextureRect_gui_input(event):
 	if event is InputEventMouseButton and event.is_pressed():

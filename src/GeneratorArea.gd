@@ -6,6 +6,7 @@ onready var fail_music = preload("res://Assets/Music/enter_area_fail.wav")
 onready var explode_music = preload("res://Assets/Music/generator_break.wav")
 
 func _ready():
+	$Keys.visible = false	
 	ResourceManager.connect("generator_broken",self,'start_smoke')
 	ResourceManager.connect("generator_fixed",self,'stop_smoke')
 	ResourceManager.connect("game_over",self,'disable_input')
@@ -17,6 +18,7 @@ func disable_input(_args):
 func _unhandled_input(event):
 	if get_overlapping_bodies().size() > 0:
 		$Sprite.material.set_shader_param("enabled",true)
+		$Keys.visible = true
 		if event.is_action_pressed("ui_enter"):
 			if ResourceManager.generator_broken:
 				$AudioStreamPlayer.stream = success_music
@@ -28,7 +30,8 @@ func _unhandled_input(event):
 				ResourceManager.emit_signal("message_requested","Generator is not Broken, Nothing to Do Here", 2)
 	else:
 		$Sprite.material.set_shader_param("enabled",false)
-
+		$Keys.visible = false
+		
 func start_smoke():
 	$AudioStreamPlayer.stream = explode_music
 	$AudioStreamPlayer.play()

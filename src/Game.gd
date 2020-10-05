@@ -76,7 +76,7 @@ func update_time(time):
 	survival_end.text = str(time) + " Seconds"
 
 func _physics_process(delta):
-	if ResourceManager.electricity < 50:
+	if ResourceManager.electricity < 40:
 		var rand = ResourceManager.rng.randi_range(0,120)
 		if rand == 100:
 			var x = ResourceManager.rng.randi_range(180,1100)
@@ -87,16 +87,16 @@ func _physics_process(delta):
 
 func fade_to_normal():
 	music_player.play()
-	$Tween.interpolate_property(music_player,"volume_db",-40,0,3)	
-	$Tween.interpolate_property(danger_player,"volume_db",0,-40,3)
+	$Tween.interpolate_property(music_player,"volume_db",-40,0,1)	
+	$Tween.interpolate_property(danger_player,"volume_db",0,-40,1)
 	$Tween.start()
 	yield($Tween,"tween_completed")
 	danger_player.stop()
 	
 func fade_to_danger():
 	danger_player.play()
-	$Tween.interpolate_property(music_player,"volume_db",0,-40,3)
-	$Tween.interpolate_property(danger_player,"volume_db",-40,0,3)
+	$Tween.interpolate_property(music_player,"volume_db",0,-40,1)
+	$Tween.interpolate_property(danger_player,"volume_db",-40,0,1)
 	$Tween.start()	
 	yield($Tween,"tween_completed")
 	music_player.stop()
