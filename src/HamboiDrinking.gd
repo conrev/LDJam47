@@ -13,6 +13,7 @@ func _physics_process(delta):
 func _on_HamboiDrinking_body_entered(body):
 	body.queue_free()
 	generate_thirst()
+	$AudioStreamPlayer.play()
 	animator.play("Gulp")
 	
 func generate_thirst():

@@ -5,6 +5,9 @@ export var decay = 0.8  # How quickly the shaking stops [0, 1].
 export var max_offset = Vector2(5, 5)  # Maximum hor/ver shake in pixels.
 export var max_roll = 0.1  # Maximum rotation in radians (use sparingly).
 
+onready var crack_first = preload("res://Assets/Music/crack.wav")
+onready var crack_all = preload("res://Assets/Music/crack_2.wav")
+onready var munching = preload("res://Assets/Music/munching_correct.wav")
 onready var animator = $AnimationPlayer
 onready var noise = OpenSimplexNoise.new()
 var trauma = 0.0  # Current shake strength.
@@ -43,9 +46,13 @@ func _input_event(viewport, event, shape_idx):
 			add_child(instance)
 			instance.emitting=true
 			add_trauma(2)
+			$AudioStreamPlayer.stream = crack_first
+			$AudioStreamPlayer.play()
 		if crack_count == 3:
 			animator.play("Crack")
 			crack_count+=1
+			$AudioStreamPlayer.stream = crack_all
+			$AudioStreamPlayer.play()
 	if event is InputEventMouseButton and event.button_index==2 and event.is_pressed():
 		start_fall()
 		
@@ -58,6 +65,9 @@ func generate_food():
 	if crack_count > 3:
 		ResourceManager.hunger+=5
 	ResourceManager.thirst-=3
+	$AudioStreamPlayer.stream = munching
+	$AudioStreamPlayer.play()
+	yield($AudioStreamPlayer,"finished")
 	queue_free()
 	get_parent().create_new_seed()
 

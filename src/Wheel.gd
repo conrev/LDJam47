@@ -21,8 +21,10 @@ func _physics_process(delta):
 	consume_hunger(omega)
 	hamboi_animator.playback_speed = omega/1.5
 	if omega > 3:
+		$AudioStreamPlayer.play()
 		hamboi_sweat.visible = true
 	else:
+		$AudioStreamPlayer.stop()
 		hamboi_sweat.visible = false
 
 func _unhandled_input(event):
@@ -38,5 +40,5 @@ func generate_power(omega):
 func consume_hunger(omega):
 	var addition = 0
 	if omega>3:
-		addition = omega/120
+		addition = omega/240
 	ResourceManager.hunger -= addition

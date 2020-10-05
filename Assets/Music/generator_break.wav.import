@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/generator_break.wav-e6fd4157d89ca5e472543aacd81f7969.sample"
+
+[deps]
+
+source_file="res://Assets/Music/generator_break.wav"
+dest_files=[ "res://.import/generator_break.wav-e6fd4157d89ca5e472543aacd81f7969.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

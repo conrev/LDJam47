@@ -24,4 +24,8 @@ scale = Vector2( 1.78745, 2.98438 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -20.0
+pitch_scale = 0.6
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_screen_exited"]

@@ -9,14 +9,19 @@ signal message_requested(msg, time)
 signal wiggle_ui(resource)
 signal game_over(reason)
 signal time_increased(survival_time)
+signal danger_started
+signal danger_stopped
 
+
+var danger = false
 var generator_broken = false
 var hunger = 100
 var electricity = 100
 var thirst = 100
 
-var e_decay = 0.03
-var h_decay = 0.02
+
+var e_decay = 0.02
+var h_decay = 0.01
 var t_decay = 0.01
 var rng = RandomNumberGenerator.new()
 var survival_time = 0
@@ -26,7 +31,6 @@ func _ready():
 	add_child(timer)
 	timer.process_mode =Timer.TIMER_PROCESS_PHYSICS
 	timer.wait_time = 1
-	timer.start()
 	timer.connect("timeout",self,'increment_survival_time')
 	rng.randomize()
 	set_physics_process(false)
@@ -42,11 +46,18 @@ func _physics_process(delta):
 	thirst = clamp(thirst,0,100)
 	emit_signal("thirst_changed",thirst)
 	check_game_over()
+	check_danger()
 	var x = rng.randi_range(0,3600)
 	if x == 60:
 		break_generator()
 	
 func game_start():
+	generator_broken=false
+	hunger = 100
+	electricity = 100
+	thirst = 100
+	survival_time = 0
+	timer.start()
 	set_physics_process(true)
 	
 func game_stop():
@@ -95,6 +106,24 @@ func check_game_over():
 	if electricity <=0:
 		emit_signal("game_over","electricity")
 		game_stop()
+
+func check_danger():
+	if hunger <= 40 or thirst<= 40 or electricity<= 40:
+		start_danger()
+	elif hunger >= 60 or thirst >= 60 or electricity >=60:
+		stop_danger()
+
+
+func start_danger():
+	if !danger:
+		emit_signal("danger_started")
+		danger = true
+		
+func stop_danger():
+	if danger:
+		emit_signal("danger_stopped")
+		danger = false
+
 
 func increment_survival_time():
 	survival_time+=1

@@ -118,9 +118,6 @@ script = ExtResource( 2 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Crack = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 1 )
-
 [node name="sunflower-seed" type="Sprite" parent="."]
 visible = false
 position = Vector2( 3.34607, 2.03619 )
@@ -128,18 +125,22 @@ texture = ExtResource( 6 )
 
 [node name="seed-left" type="Sprite" parent="."]
 visible = false
-position = Vector2( -65, 26 )
-rotation = -0.698132
+position = Vector2( -28.7263, 2.92709 )
 texture = ExtResource( 5 )
 
 [node name="seed-right" type="Sprite" parent="."]
 visible = false
-position = Vector2( 94, 26 )
-rotation = 0.698132
+position = Vector2( 24.7277, 1.14529 )
 texture = ExtResource( 4 )
 
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-visible = false
 polygon = PoolVector2Array( 20.5, -105.1, 20.5, -100.9, 46.5, -54.8, 46.5, -51.2, 54.5, -24.1, 54.5, 71.8, 46.1, 96.5, 43.4, 96.5, 29.8, 109.5, -27.1, 109.5, -43.5, 101.7, -43.5, 99.2, -54.5, 84.5, -54.5, 1.3, -45.6, -42.5, -44.2, -42.5, -31.2, -84.5, -29.2, -84.5, -13.7, -109.5, 7.3, -109.5 )
 
 [node name="CPUParticles2D" parent="." instance=ExtResource( 3 )]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -15.0
+pitch_scale = 1.5

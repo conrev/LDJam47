@@ -5,8 +5,10 @@ onready var game_over_msg = $UILayer/GameOver/Label2
 onready var survival_time = $UILayer/TimeContainer/SurvivalTime
 onready var survival_end = $UILayer/GameOver/SurvivalTime
 onready var global_light = $GlobalLight
-onready var music_player = $AudioStreamPlayer
+onready var music_player = $NormalPlayer
+onready var danger_player = $DangerPlayer
 onready var basic_music = preload("res://Assets/Music/Ludum_Dare_47_Standard_Music.ogg")
+onready var danger_music = preload("res://Assets/Music/Ludum_Dare_47_Danger_Music.ogg")
 onready var ghost_scene = preload("res://src/Ghost.tscn")
 var scene_open = false
 var scene_running = null
@@ -19,12 +21,16 @@ var scene_running = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	ResourceManager.game_start()
+	animator.play("GameStart")
 	music_player.stream = basic_music
 	music_player.play()
+	danger_player.stream = danger_music
+	danger_player.volume_db = -90
 	ResourceManager.connect("game_over",self,"_trigger_game_over")
 	ResourceManager.connect("electricity_changed",self,"change_light_power")
 	ResourceManager.connect("time_increased",self,"update_time")
-	
+	ResourceManager.connect("danger_started",self,"fade_to_danger")
+	ResourceManager.connect("danger_stopped",self,"fade_to_normal")
 	
 func add_scene(path):
 	if scene_open:
@@ -50,6 +56,7 @@ func instantiate(path):
 	add_child(scene_running)
 
 func _trigger_game_over(reason):
+	yield(remove_scene(),"completed")
 	$HamBoi.queue_free()
 	set_physics_process(false)
 	match reason:
@@ -72,10 +79,24 @@ func _physics_process(delta):
 	if ResourceManager.electricity < 50:
 		var rand = ResourceManager.rng.randi_range(0,120)
 		if rand == 100:
-			print('Ghosterino!')
 			var x = ResourceManager.rng.randi_range(180,1100)
 			var y = ResourceManager.rng.randi_range(50,550)
 			var instance = ghost_scene.instance()
 			add_child(instance)
 			instance.global_position = Vector2(x,y)
+
+func fade_to_normal():
+	music_player.play()
+	$Tween.interpolate_property(music_player,"volume_db",-40,0,3)	
+	$Tween.interpolate_property(danger_player,"volume_db",0,-40,3)
+	$Tween.start()
+	yield($Tween,"tween_completed")
+	danger_player.stop()
 	
+func fade_to_danger():
+	danger_player.play()
+	$Tween.interpolate_property(music_player,"volume_db",0,-40,3)
+	$Tween.interpolate_property(danger_player,"volume_db",-40,0,3)
+	$Tween.start()	
+	yield($Tween,"tween_completed")
+	music_player.stop()

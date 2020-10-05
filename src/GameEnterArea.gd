@@ -15,5 +15,9 @@ func get_reward():
 
 func _unhandled_input(event):
 	if get_overlapping_bodies().size() > 0:
+		$Sprite.material.set_shader_param("enabled",true)
 		if event.is_action_pressed("ui_enter"):
+			$AudioStreamPlayer.play()
 			get_parent().add_scene(scene_to_load)
+	else:
+		$Sprite.material.set_shader_param("enabled",false)

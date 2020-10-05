@@ -4,7 +4,7 @@ onready var droplet_scene = preload("res://src/WaterDrops.tscn")
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-var drop_rate = 0.5
+var drop_rate = 1
 var timer = Timer.new()
 
 # Called when the node enters the scene tree for the first time.
@@ -15,7 +15,6 @@ func _ready():
 	timer.start()
 	
 func generate_droplet():
-	print('Generating Droplet')
 	var instance = droplet_scene.instance() 
 	add_child(instance)
 	var x = ResourceManager.rng.randi_range(0,1280)
