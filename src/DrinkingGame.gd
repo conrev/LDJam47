@@ -20,7 +20,10 @@ func generate_droplet():
 	var x = ResourceManager.rng.randi_range(0,1280)
 	instance.global_position= Vector2(x,0)
 	
+func quit():
+	queue_free()
+	get_parent().remove_scene()
+
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel"):
-		queue_free()
-		get_parent().remove_scene()
+		quit()

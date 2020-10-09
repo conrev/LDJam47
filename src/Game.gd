@@ -20,6 +20,7 @@ var scene_running = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$CanvasLayer/Fader.fade_in()
 	ResourceManager.game_start()
 	animator.play("GameStart")
 	music_player.stream = basic_music

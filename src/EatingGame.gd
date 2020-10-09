@@ -16,11 +16,13 @@ func create_new_seed():
 	add_child(instance)
 	instance.global_position = Vector2(512,300)
 
-
+func quit():
+	queue_free()
+	get_parent().remove_scene()
+		
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel"):
-		queue_free()
-		get_parent().remove_scene()
+		quit()
 		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

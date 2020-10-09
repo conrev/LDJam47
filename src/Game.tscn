@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=69 format=2]
 
 [ext_resource path="res://Assets/background.png" type="Texture" id=1]
 [ext_resource path="res://Assets/hamster-all.png" type="Texture" id=2]
@@ -32,58 +32,68 @@
 [ext_resource path="res://Assets/circuit-box.png" type="Texture" id=30]
 [ext_resource path="res://Assets/Music/generator_broken_static_noise.wav" type="AudioStream" id=31]
 [ext_resource path="res://Assets/icons8-e-key-96.png" type="Texture" id=32]
+[ext_resource path="res://src/FaderLayer.tscn" type="PackedScene" id=33]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 248.849, 210.33 )
+extents = Vector2( 248.849, 259.904 )
 
-[sub_resource type="ShaderMaterial" id=28]
+[sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
 shader = ExtResource( 27 )
 shader_param/width = 3.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 shader_param/enabled = false
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Shader" id=34]
+code = "shader_type canvas_item;
+
+void fragment(){
+	COLOR = texture(TEXTURE, UV);
+}"
+
+[sub_resource type="ShaderMaterial" id=35]
+shader = SubResource( 34 )
+
+[sub_resource type="Gradient" id=3]
 colors = PoolColorArray( 0.686035, 0.686035, 0.686035, 1, 0, 0, 0, 1 )
 
-[sub_resource type="ShaderMaterial" id=33]
+[sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 27 )
 shader_param/width = 5.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 shader_param/enabled = false
 
-[sub_resource type="ShaderMaterial" id=32]
+[sub_resource type="ShaderMaterial" id=5]
 shader = ExtResource( 27 )
 shader_param/width = 3.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 shader_param/enabled = false
 
-[sub_resource type="ShaderMaterial" id=31]
+[sub_resource type="ShaderMaterial" id=6]
 shader = ExtResource( 27 )
 shader_param/width = 5.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 shader_param/enabled = false
 
-[sub_resource type="ShaderMaterial" id=30]
+[sub_resource type="ShaderMaterial" id=7]
 shader = ExtResource( 27 )
 shader_param/width = 5.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 shader_param/enabled = false
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 1800, 300 )
 
-[sub_resource type="ShaderMaterial" id=29]
+[sub_resource type="ShaderMaterial" id=9]
 shader = ExtResource( 27 )
 shader_param/width = 3.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 shader_param/enabled = true
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 44.5269, 38.4525 )
 
-[sub_resource type="Animation" id=5]
-resource_name = "Fall"
+[sub_resource type="Animation" id=11]
 tracks/0/type = "value"
 tracks/0/path = NodePath("animal-hamster-001:frame")
 tracks/0/interp = 1
@@ -97,8 +107,7 @@ tracks/0/keys = {
 "values": [ 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "Idle"
+[sub_resource type="Animation" id=12]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("animal-hamster-001:frame")
@@ -113,8 +122,7 @@ tracks/0/keys = {
 "values": [ 14, 15, 16, 17, 17 ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "Jump"
+[sub_resource type="Animation" id=13]
 tracks/0/type = "value"
 tracks/0/path = NodePath("animal-hamster-001:frame")
 tracks/0/interp = 1
@@ -128,8 +136,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="Animation" id=8]
-resource_name = "Walk"
+[sub_resource type="Animation" id=14]
 length = 0.5
 loop = true
 tracks/0/type = "value"
@@ -145,7 +152,7 @@ tracks/0/keys = {
 "values": [ 7, 8, 9, 10, 11, 12 ]
 }
 
-[sub_resource type="Shader" id=9]
+[sub_resource type="Shader" id=15]
 code = "shader_type canvas_item;
 
 uniform float amount: hint_range(0.0, 5.0);
@@ -154,11 +161,11 @@ void fragment() {
 	COLOR.rgb = textureLod(SCREEN_TEXTURE, SCREEN_UV, amount).rgb;
 }"
 
-[sub_resource type="ShaderMaterial" id=10]
-shader = SubResource( 9 )
+[sub_resource type="ShaderMaterial" id=16]
+shader = SubResource( 15 )
 shader_param/amount = 0.0
 
-[sub_resource type="Shader" id=11]
+[sub_resource type="Shader" id=17]
 code = "shader_type canvas_item;
 
 uniform float amount: hint_range(0.0, 5.0);
@@ -167,43 +174,43 @@ void fragment() {
 	COLOR.rgb = textureLod(SCREEN_TEXTURE, SCREEN_UV, amount).rgb;
 }"
 
-[sub_resource type="ShaderMaterial" id=12]
-shader = SubResource( 11 )
+[sub_resource type="ShaderMaterial" id=18]
+shader = SubResource( 17 )
 shader_param/amount = 0.0
 
-[sub_resource type="DynamicFontData" id=13]
+[sub_resource type="DynamicFontData" id=19]
 font_path = "res://Assets/Fonts/JetBrainsMono-Bold.ttf"
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="DynamicFont" id=20]
 size = 19
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = SubResource( 13 )
+font_data = SubResource( 19 )
 
-[sub_resource type="DynamicFontData" id=15]
+[sub_resource type="DynamicFontData" id=21]
 font_path = "res://Assets/Fonts/JetBrainsMono-Bold.ttf"
 
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=22]
 size = 18
 outline_size = 1
 outline_color = Color( 0.811765, 0.0745098, 0.0745098, 1 )
 use_filter = true
-font_data = SubResource( 15 )
+font_data = SubResource( 21 )
 
-[sub_resource type="StyleBoxEmpty" id=17]
+[sub_resource type="StyleBoxEmpty" id=23]
 
-[sub_resource type="DynamicFontData" id=18]
+[sub_resource type="DynamicFontData" id=24]
 font_path = "res://Assets/Fonts/JetBrainsMono-Bold.ttf"
 
-[sub_resource type="DynamicFont" id=19]
+[sub_resource type="DynamicFont" id=25]
 size = 25
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = SubResource( 18 )
+font_data = SubResource( 24 )
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=26]
 resource_local_to_scene = true
 size = 52
 outline_size = 1
@@ -211,17 +218,16 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 25 )
 
-[sub_resource type="DynamicFontData" id=21]
+[sub_resource type="DynamicFontData" id=27]
 font_path = "res://Assets/Fonts/JetBrainsMono-Bold.ttf"
 
-[sub_resource type="DynamicFont" id=22]
+[sub_resource type="DynamicFont" id=28]
 size = 32
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
-font_data = SubResource( 21 )
+font_data = SubResource( 27 )
 
-[sub_resource type="Animation" id=25]
-resource_name = "Clicked"
+[sub_resource type="Animation" id=29]
 length = 0.2
 step = 0.05
 tracks/0/type = "value"
@@ -237,7 +243,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.2, 0.8 ), Vector2( 0.8, 0.8 ), Vector2( 1.2, 0.8 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=30]
 resource_name = "Idle"
 length = 0.4
 loop = true
@@ -254,7 +260,7 @@ tracks/0/keys = {
 "values": [ 0.0, -5.0, 0.0, 5.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=31]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("CanvasModulate:color")
@@ -293,7 +299,7 @@ tracks/2/keys = {
 "values": [ 0.0, 2.44 ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=32]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("BlurLayer/TextureRect:material:shader_param/amount")
@@ -476,8 +482,7 @@ tracks/14/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=26]
-resource_name = "GameStart"
+[sub_resource type="Animation" id=33]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("UILayer/GameOver:visible")
@@ -563,11 +568,11 @@ script = ExtResource( 8 )
 scene_to_load = "res://src/EatingGame.tscn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EatArea"]
-position = Vector2( 4.04153, 115.192 )
+position = Vector2( 44.8236, 118.532 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="EatArea"]
-material = SubResource( 28 )
+material = SubResource( 2 )
 position = Vector2( 54.9823, 202.992 )
 scale = Vector2( 3.5, 4 )
 texture = ExtResource( 9 )
@@ -578,6 +583,8 @@ volume_db = -10.0
 pitch_scale = 0.7
 
 [node name="Keys" type="Sprite" parent="EatArea"]
+light_mask = 2
+material = SubResource( 35 )
 position = Vector2( 208.677, -4.45862 )
 scale = Vector2( 1.5, 1.5 )
 z_index = 300
@@ -604,17 +611,17 @@ emission_sphere_radius = 40.38
 spread = 90.97
 gravity = Vector2( 0, -98 )
 scale_amount_random = 0.35
-color_ramp = SubResource( 2 )
+color_ramp = SubResource( 3 )
 hue_variation = -0.83
 
 [node name="Sprite" type="Sprite" parent="GeneratorArea"]
-material = SubResource( 33 )
+material = SubResource( 4 )
 position = Vector2( -104.871, -1.8656 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 30 )
 
 [node name="Wires" type="Sprite" parent="GeneratorArea"]
-material = SubResource( 32 )
+material = SubResource( 5 )
 position = Vector2( 622.142, -50.5154 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 16 )
@@ -623,6 +630,8 @@ __meta__ = {
 }
 
 [node name="Keys" type="Sprite" parent="GeneratorArea"]
+light_mask = 2
+material = SubResource( 35 )
 position = Vector2( 200.045, 171.332 )
 scale = Vector2( 1.5, 1.5 )
 z_index = 300
@@ -643,7 +652,7 @@ scale = Vector2( 0.294247, 0.299388 )
 script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayArea"]
-position = Vector2( 4.0415, 174.774 )
+position = Vector2( 30.7831, 233.028 )
 shape = SubResource( 1 )
 
 [node name="Stand" type="Sprite" parent="PlayArea"]
@@ -652,7 +661,7 @@ scale = Vector2( 2.5, 2.5 )
 texture = ExtResource( 29 )
 
 [node name="Sprite" type="Sprite" parent="PlayArea"]
-material = SubResource( 31 )
+material = SubResource( 6 )
 position = Vector2( 52.5397, -273.895 )
 scale = Vector2( 2.5, 2.5 )
 texture = ExtResource( 14 )
@@ -665,6 +674,8 @@ volume_db = -10.0
 pitch_scale = 0.7
 
 [node name="Keys" type="Sprite" parent="PlayArea"]
+light_mask = 2
+material = SubResource( 35 )
 position = Vector2( 51.3241, 64.6299 )
 scale = Vector2( 1.5, 1.5 )
 z_index = 300
@@ -677,6 +688,7 @@ script = ExtResource( 7 )
 scene_to_load = "res://src/DrinkingGame.tscn"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DrinkArea"]
+position = Vector2( -33.3049, -26.7816 )
 shape = SubResource( 1 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="DrinkArea"]
@@ -685,12 +697,14 @@ volume_db = -10.0
 pitch_scale = 0.7
 
 [node name="Sprite" type="Sprite" parent="DrinkArea"]
-material = SubResource( 30 )
+material = SubResource( 7 )
 position = Vector2( 1.06714, -563.957 )
 scale = Vector2( 3.39851, 3.34015 )
 texture = ExtResource( 15 )
 
 [node name="Keys" type="Sprite" parent="DrinkArea"]
+light_mask = 2
+material = SubResource( 35 )
 position = Vector2( 267.329, -104.166 )
 scale = Vector2( 1.5, 1.5 )
 z_index = 300
@@ -705,7 +719,31 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 position = Vector2( -124.173, 618.624 )
-shape = SubResource( 3 )
+shape = SubResource( 8 )
+
+[node name="Floor2" type="StaticBody2D" parent="."]
+position = Vector2( 1246.35, 460.379 )
+rotation = 1.5708
+scale = Vector2( 0.294247, 0.299388 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor2"]
+position = Vector2( -124.173, 618.624 )
+shape = SubResource( 8 )
+
+[node name="Floor3" type="StaticBody2D" parent="."]
+position = Vector2( 118.352, 464.161 )
+rotation = 1.5708
+scale = Vector2( 0.294247, 0.299388 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor3"]
+position = Vector2( -124.173, 618.624 )
+shape = SubResource( 8 )
 
 [node name="lightbulb" type="Sprite" parent="."]
 position = Vector2( 318.208, 77.0813 )
@@ -730,7 +768,7 @@ __meta__ = {
 }
 
 [node name="animal-hamster-001" type="Sprite" parent="HamBoi"]
-material = SubResource( 29 )
+material = SubResource( 9 )
 texture = ExtResource( 2 )
 vframes = 3
 hframes = 7
@@ -738,21 +776,21 @@ frame = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HamBoi"]
 position = Vector2( -0.953735, 45.9276 )
-shape = SubResource( 4 )
+shape = SubResource( 10 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="HamBoi"]
-anims/Fall = SubResource( 5 )
-anims/Idle = SubResource( 6 )
-anims/Jump = SubResource( 7 )
-anims/Walk = SubResource( 8 )
+anims/Fall = SubResource( 11 )
+anims/Idle = SubResource( 12 )
+anims/Jump = SubResource( 13 )
+anims/Walk = SubResource( 14 )
 
 [node name="floor-fg" type="Sprite" parent="."]
-position = Vector2( 512.884, 514 )
-scale = Vector2( 0.800021, 1 )
+position = Vector2( 514.772, 514 )
+scale = Vector2( 0.802971, 1 )
 texture = ExtResource( 12 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-material = SubResource( 10 )
+material = SubResource( 16 )
 use_parent_material = true
 color = Color( 0.25098, 0.25098, 0.25098, 1 )
 
@@ -766,10 +804,21 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="GlobalLight2" type="Light2D" parent="."]
+light_mask = -2147483647
+position = Vector2( 487.02, 223.661 )
+scale = Vector2( 1.30722, 1.2528 )
+texture = ExtResource( 13 )
+texture_scale = 5.64
+range_item_cull_mask = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="BlurLayer" type="CanvasLayer" parent="."]
 
 [node name="TextureRect" type="TextureRect" parent="BlurLayer"]
-material = SubResource( 12 )
+material = SubResource( 18 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -795,14 +844,14 @@ __meta__ = {
 [node name="Label" type="Label" parent="UILayer/TimeContainer"]
 margin_right = 154.0
 margin_bottom = 25.0
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 20 )
 text = "Survival Time:"
 
 [node name="SurvivalTime" type="Label" parent="UILayer/TimeContainer"]
 margin_top = 29.0
 margin_right = 154.0
 margin_bottom = 52.0
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 22 )
 text = "0 Second"
 align = 1
 valign = 1
@@ -854,13 +903,14 @@ margin_left = 240.037
 margin_top = 33.2049
 margin_right = 745.037
 margin_bottom = 106.205
-custom_styles/normal = SubResource( 17 )
-custom_fonts/font = SubResource( 19 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = SubResource( 25 )
 text = "GENERATOR DOWN, FIX IT FIRST!"
 align = 1
 valign = 1
 
 [node name="GameOver" type="Control" parent="UILayer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -869,11 +919,12 @@ __meta__ = {
 }
 
 [node name="Text" type="Label" parent="UILayer/GameOver"]
+visible = false
 margin_left = -200.0
 margin_top = 324.726
 margin_right = 86.0
 margin_bottom = 347.726
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 22 )
 text = "You Survived For : "
 align = 1
 valign = 1
@@ -882,12 +933,13 @@ __meta__ = {
 }
 
 [node name="SurvivalTime" type="Label" parent="UILayer/GameOver"]
+visible = false
 modulate = Color( 1, 1, 1, 0 )
 margin_left = 483.675
 margin_top = 324.726
 margin_right = 769.675
 margin_bottom = 347.726
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 22 )
 text = "3 Seconds"
 align = 1
 valign = 1
@@ -906,7 +958,7 @@ margin_top = -121.0
 margin_right = 155.0
 margin_bottom = -55.0
 rect_pivot_offset = Vector2( 155, 33 )
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 26 )
 text = "GAME OVER!"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -923,7 +975,7 @@ margin_top = 435.0
 margin_right = 213.0
 margin_bottom = 501.0
 rect_pivot_offset = Vector2( 155, 33 )
-custom_fonts/font = SubResource( 22 )
+custom_fonts/font = SubResource( 28 )
 text = "CAUSE OF DEATH:"
 align = 1
 valign = 1
@@ -932,6 +984,7 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="UILayer/GameOver"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -949,17 +1002,20 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UILayer/GameOver/TextureRect"]
 autoplay = "Idle"
-anims/Clicked = SubResource( 25 )
-anims/Idle = SubResource( 34 )
+anims/Clicked = SubResource( 29 )
+anims/Idle = SubResource( 30 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/ChangeScene = SubResource( 23 )
-anims/GameOver = SubResource( 24 )
-anims/GameStart = SubResource( 26 )
+anims/ChangeScene = SubResource( 31 )
+anims/GameOver = SubResource( 32 )
+anims/GameStart = SubResource( 33 )
 
 [node name="DangerPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="NormalPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="CanvasLayer" parent="." instance=ExtResource( 33 )]
+layer = 3
 [connection signal="gui_input" from="UILayer/GameOver/TextureRect" to="UILayer/GameOver/TextureRect" method="_on_TextureRect_gui_input"]
